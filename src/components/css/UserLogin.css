@@ -1,0 +1,14 @@
+.user-login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  height: 100vh;
+}
+
+.user-login > h2 {
+  text-align: center;
+  color: white;
+  margin: 1rem 0;
+}
