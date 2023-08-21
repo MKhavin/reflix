@@ -1,5 +1,6 @@
 nav {
   color: white;
+  /* font-family: "Permanent Marker", cursive; */
 }
 
 nav > ul {
@@ -10,4 +11,12 @@ nav > ul {
 
 ul > li {
   list-style: none;
+}
+
+.navbar-link {
+  color: white;
+}
+
+.navbar-link:visited {
+  color: white;
 }
