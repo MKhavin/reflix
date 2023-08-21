@@ -1,17 +1,8 @@
-import React, { useEffect } from "react";
-import apiManager from "./util/TMDBAPIManager";
 import FilmsCard from "./FilmsCard";
 import { useParams } from "react-router-dom";
 
-export default function FilmsCardsList({
-  filmsList,
-  filmsListLoaded,
-  rentedFilmsList,
-  filmRented,
-}) {
+export default function RentedFilmsCardsList({ rentedFilmsList, filmRented }) {
   const { userId } = useParams();
-
-  useEffect(() => apiManager.getFilmsData(filmsListLoaded), []);
 
   function rentFilmButtonClicked(filmId) {
     filmRented(filmId, userId);
@@ -19,7 +10,7 @@ export default function FilmsCardsList({
 
   return (
     <>
-      {filmsList.map((currFilm) => (
+      {rentedFilmsList[userId]?.map((currFilm) => (
         <FilmsCard
           filmsData={currFilm}
           isRented={

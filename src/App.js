@@ -5,10 +5,13 @@ import UserLogin from "./components/Users/UserLogin";
 import NavBar from "./components/NavBar";
 import FilmsCardsList from "./components/FilmsCardsList";
 import FilmsDetails from "./components/FilmsDetails/FilmsDetails";
+import FilmsCardsContainer from "./components/FilmsCardsContainer";
+import RentedFilmsCardsList from "./components/RentedFilmsCardsList";
 
 function App() {
   const [filmsList, setFilmsList] = useState([]);
   const [rentedFilmsList, setRentedFilms] = useState({});
+  const [currentUser, setCurrentUser] = useState(0);
   const usersList = [
     { name: "Milana", id: 4 },
     { name: "Nino", id: 3 },
@@ -40,19 +43,40 @@ function App() {
     setRentedFilms({ ...rentedFilmsList, [userId]: newRentedFilms });
   }
 
+  function userSelected(userId) {
+    setCurrentUser(userId);
+  }
+
   return (
     <Router>
-      <NavBar />
+      <NavBar userId={currentUser} />
       <Routes>
-        <Route path="/" element=<UserLogin usersList={usersList} /> />
         <Route
-          path="user/:userId"
-          element=<FilmsCardsList
-            filmsListLoaded={filmsListLoaded}
-            filmsList={filmsList}
-            filmRented={filmRented}
-            rentedFilmsList={rentedFilmsList}
+          path="/"
+          element=<UserLogin
+            usersList={usersList}
+            userSelected={userSelected}
           />
+        />
+        <Route
+          path="user/:userId/films"
+          element=<FilmsCardsContainer>
+            <FilmsCardsList
+              filmsListLoaded={filmsListLoaded}
+              filmsList={filmsList}
+              filmRented={filmRented}
+              rentedFilmsList={rentedFilmsList}
+            />
+          </FilmsCardsContainer>
+        />
+        <Route
+          path="user/:userId/rented"
+          element=<FilmsCardsContainer>
+            <RentedFilmsCardsList
+              filmRented={filmRented}
+              rentedFilmsList={rentedFilmsList}
+            />
+          </FilmsCardsContainer>
         />
         <Route
           path="films/:filmId"
