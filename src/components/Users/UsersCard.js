@@ -4,9 +4,9 @@ import AppLink from "../util/AppLink";
 
 export default function UsersCard({ userData }) {
   function getBackgroundColor() {
-    const colors = ["orange", "white", "yellow"];
+    const colors = ["orange", "white", "yellow", "green", "grey", "red"];
 
-    const colorId = Math.trunc(Math.random() * 3);
+    const colorId = Math.trunc(Math.random() * colors.length);
 
     console.log(colorId);
     return colors[colorId];
