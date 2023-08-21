@@ -19,14 +19,7 @@ class TMDBAPIManager {
     );
     const unwrappedData = await apiResponse.json();
 
-    const filmsData = unwrappedData.results;
-    const filmsDataWithImages = filmsData.map((film) => {
-      film.poster = this.#getFilmsPosters(film);
-      film.genres = this.#handleFilmsGenres(film.genre_ids);
-      return film;
-    });
-
-    return filmsDataWithImages;
+    return this.#handleFilmsData(unwrappedData);
   }
 
   #getFilmsPosters(film) {
@@ -51,8 +44,37 @@ class TMDBAPIManager {
     return filmsGenres;
   }
 
+  async #fetchFilmsDataByUsersQuery(query) {
+    if (!this.#genres.length) {
+      this.#genres = await this.#getFilmsGenres();
+    }
+
+    const apiURL = `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=${ADULT_FILMS}&include_video=${WITH_TRAILERS}&language=${APP_LANG}&api_key=${API_KEY}`;
+    const apiResponse = await fetch(apiURL);
+    const unwrappedData = await apiResponse.json();
+
+    return this.#handleFilmsData(unwrappedData);
+  }
+
+  #handleFilmsData(fetchData) {
+    const filmsData = fetchData.results;
+    const filmsDataWithImages = filmsData.map((film) => {
+      film.poster = this.#getFilmsPosters(film);
+      film.genres = this.#handleFilmsGenres(film.genre_ids);
+      return film;
+    });
+
+    return filmsDataWithImages;
+  }
+
   getFilmsData(callback) {
     this.#fetchFilmsData()
+      .then((filmsData) => callback(filmsData))
+      .catch((err) => alert(err));
+  }
+
+  getFilmsDataByUsersQuery(query, callback) {
+    this.#fetchFilmsDataByUsersQuery(query)
       .then((filmsData) => callback(filmsData))
       .catch((err) => alert(err));
   }

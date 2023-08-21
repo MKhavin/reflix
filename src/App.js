@@ -7,6 +7,7 @@ import FilmsCardsList from "./components/FilmsCardsList/FilmsCardsList";
 import FilmsDetails from "./components/FilmsDetails/FilmsDetails";
 import FilmsCardsContainer from "./components/FilmsCardsList/FilmsCardsContainer";
 import RentedFilmsCardsList from "./components/FilmsCardsList/RentedFilmsCardsList";
+import SearchBar from "./components/SearchBar";
 
 function App() {
   const [filmsList, setFilmsList] = useState([]);
@@ -60,14 +61,17 @@ function App() {
         />
         <Route
           path="user/:userId/films"
-          element=<FilmsCardsContainer>
-            <FilmsCardsList
-              filmsListLoaded={filmsListLoaded}
-              filmsList={filmsList}
-              filmRented={filmRented}
-              rentedFilmsList={rentedFilmsList}
-            />
-          </FilmsCardsContainer>
+          element=<div>
+            <SearchBar filmsListLoaded={filmsListLoaded} />
+            <FilmsCardsContainer>
+              <FilmsCardsList
+                filmsListLoaded={filmsListLoaded}
+                filmsList={filmsList}
+                filmRented={filmRented}
+                rentedFilmsList={rentedFilmsList}
+              />
+            </FilmsCardsContainer>
+          </div>
         />
         <Route
           path="user/:userId/rented"
