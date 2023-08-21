@@ -1,6 +1,6 @@
 import React from "react";
-import "./css/UsersCard.css";
-import AppLink from "./util/AppLink";
+import "../css/UsersCard.css";
+import AppLink from "../util/AppLink";
 
 export default function UsersCard({ userData }) {
   function getBackgroundColor() {

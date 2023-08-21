@@ -19,3 +19,11 @@
 .is-favourite {
   color: orange;
 }
+
+.films-card > .app-link {
+  color: white;
+}
+
+.films-card > .app-link:visited {
+  color: white;
+}

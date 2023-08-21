@@ -1,5 +1,5 @@
 import React from "react";
-import "./css/UsersCardsList.css";
+import "../css/UsersCardsList.css";
 import UsersCard from "./UsersCard";
 
 export default function UsersCardsList({ usersList }) {
