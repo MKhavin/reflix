@@ -2,7 +2,7 @@ import React from "react";
 import "../css/UsersCard.css";
 import AppLink from "../util/AppLink";
 
-export default function UsersCard({ userData }) {
+export default function UsersCard({ userData, onClick }) {
   function getBackgroundColor() {
     const colors = ["orange", "white", "yellow", "green", "grey", "red"];
 
@@ -12,12 +12,18 @@ export default function UsersCard({ userData }) {
     return colors[colorId];
   }
 
+  function userOnClick() {
+    onClick(userData.id);
+  }
+
   return (
     <div
       className="users-card"
       style={{ backgroundColor: getBackgroundColor() }}
     >
-      <AppLink to={`user/${userData.id}`}>{userData.name}</AppLink>
+      <AppLink to={`user/${userData.id}/films`} onClick={userOnClick}>
+        {userData.name}
+      </AppLink>
     </div>
   );
 }

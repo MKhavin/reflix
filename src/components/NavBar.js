@@ -3,8 +3,8 @@ import "./css/NavBar.css";
 import AppLink from "./util/AppLink";
 import { useLocation } from "react-router-dom";
 
-export default function NavBar() {
-  const links = ["films", "favourites"];
+export default function NavBar({ userId }) {
+  const links = ["films", "rented"];
 
   const currentPath = useLocation().pathname;
 
@@ -16,7 +16,11 @@ export default function NavBar() {
     <nav>
       <ul>
         {links.map((link, id) => (
-          <AppLink to={link} className="navbar-link" key={id}>
+          <AppLink
+            to={`user/${userId}/${link}`}
+            className="navbar-link"
+            key={id}
+          >
             {link.toUpperCase()}
           </AppLink>
         ))}
