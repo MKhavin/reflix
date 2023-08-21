@@ -1,8 +1,7 @@
-// import React, { useState } from "react";
-import "./css/FilmsCard.css";
+import "../css/FilmsCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import AppLink from "./util/AppLink";
+import AppLink from "../util/AppLink";
 
 export default function FilmsCard({ filmsData, isRented, filmRented }) {
   function rentButtonClicked() {

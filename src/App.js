@@ -3,10 +3,10 @@ import { useState } from "react";
 import "./App.css";
 import UserLogin from "./components/Users/UserLogin";
 import NavBar from "./components/NavBar";
-import FilmsCardsList from "./components/FilmsCardsList";
+import FilmsCardsList from "./components/FilmsCardsList/FilmsCardsList";
 import FilmsDetails from "./components/FilmsDetails/FilmsDetails";
-import FilmsCardsContainer from "./components/FilmsCardsContainer";
-import RentedFilmsCardsList from "./components/RentedFilmsCardsList";
+import FilmsCardsContainer from "./components/FilmsCardsList/FilmsCardsContainer";
+import RentedFilmsCardsList from "./components/FilmsCardsList/RentedFilmsCardsList";
 
 function App() {
   const [filmsList, setFilmsList] = useState([]);

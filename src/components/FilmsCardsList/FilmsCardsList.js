@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import apiManager from "./util/TMDBAPIManager";
+import apiManager from "../util/TMDBAPIManager";
 import FilmsCard from "./FilmsCard";
 import { useParams } from "react-router-dom";
 
