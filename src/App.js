@@ -1,14 +1,17 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { useState } from "react";
 import "./App.css";
-import UserLogin from "./components/UserLogin";
+import UserLogin from "./components/Users/UserLogin";
 import NavBar from "./components/NavBar";
 import FilmsCardsList from "./components/FilmsCardsList";
+import FilmsDetails from "./components/FilmsDetails/FilmsDetails";
 
 function App() {
   const [filmsList, setFilmsList] = useState([]);
   const [rentedFilmsList, setRentedFilms] = useState({});
   const usersList = [
+    { name: "Milana", id: 4 },
+    { name: "Nino", id: 3 },
     { name: "Michael", id: 2 },
     { name: "Rone", id: 1 },
   ];
@@ -50,6 +53,10 @@ function App() {
             filmRented={filmRented}
             rentedFilmsList={rentedFilmsList}
           />
+        />
+        <Route
+          path="films/:filmId"
+          element=<FilmsDetails filmsList={filmsList} />
         />
       </Routes>
     </Router>
