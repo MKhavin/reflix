@@ -19,7 +19,7 @@ class TMDBAPIManager {
     );
     const unwrappedData = await apiResponse.json();
 
-    return this.#handleFilmsData(unwrappedData);
+    return this.#handleFilmsData(unwrappedData.results);
   }
 
   #getFilmsPosters(film) {
@@ -53,18 +53,36 @@ class TMDBAPIManager {
     const apiResponse = await fetch(apiURL);
     const unwrappedData = await apiResponse.json();
 
-    return this.#handleFilmsData(unwrappedData);
+    return this.#handleFilmsData(unwrappedData.results);
   }
 
-  #handleFilmsData(fetchData) {
-    const filmsData = fetchData.results;
+  #handleFilmsData(filmsData) {
     const filmsDataWithImages = filmsData.map((film) => {
-      film.poster = this.#getFilmsPosters(film);
-      film.genres = this.#handleFilmsGenres(film.genre_ids);
-      return film;
+      const newFilm = structuredClone(film);
+
+      newFilm.poster = this.#getFilmsPosters(newFilm);
+
+      if (newFilm.genre_ids) {
+        newFilm.genres = this.#handleFilmsGenres(newFilm.genre_ids);
+      } else if (newFilm.genres) {
+        newFilm.genres = newFilm.genres.map((genre) => genre.name);
+      }
+      return newFilm;
     });
 
     return filmsDataWithImages;
+  }
+
+  async #fetchFilmDataById(filmId) {
+    if (!this.#genres.length) {
+      this.#genres = await this.#getFilmsGenres();
+    }
+
+    const apiURL = `https://api.themoviedb.org/3/movie/${filmId}?language=${APP_LANG}&api_key=${API_KEY}`;
+    const apiResponse = await fetch(apiURL);
+    const unwrappedData = await apiResponse.json();
+
+    return this.#handleFilmsData([unwrappedData]);
   }
 
   getFilmsData(callback) {
@@ -78,9 +96,14 @@ class TMDBAPIManager {
       .then((filmsData) => callback(filmsData))
       .catch((err) => alert(err));
   }
+
+  getFilmDataById(filmId, callback) {
+    this.#fetchFilmDataById(filmId)
+      .then((filmsData) => callback(filmsData[0]))
+      .catch((err) => alert(err));
+  }
 }
 
 const defaultModule = new TMDBAPIManager();
 
 export default defaultModule;
-// export { defaultModule.getFilmsData}
