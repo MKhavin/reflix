@@ -82,7 +82,27 @@ class TMDBAPIManager {
     const apiResponse = await fetch(apiURL);
     const unwrappedData = await apiResponse.json();
 
-    return this.#handleFilmsData([unwrappedData]);
+    const filmData = this.#handleFilmsData([unwrappedData]);
+    filmData[0].trailerURL = await this.#fetchFilmTrailer(filmData[0].id);
+
+    return filmData;
+  }
+
+  async #fetchFilmTrailer(filmId) {
+    if (!filmId) {
+      return;
+    }
+
+    const apiURL = `https://api.themoviedb.org/3/movie/${filmId}/videos?language=${APP_LANG}&api_key=${API_KEY}`;
+    const apiResponse = await fetch(apiURL);
+    const unwrappedData = await apiResponse.json();
+
+    const trailersVideos = unwrappedData.results.filter(
+      (video) => video.type === "Trailer" && video.site === "YouTube"
+    );
+    const trailerURL = `http://www.youtube.com/embed/${trailersVideos[0].key}`;
+
+    return trailerURL;
   }
 
   getFilmsData(callback) {
@@ -101,6 +121,10 @@ class TMDBAPIManager {
     this.#fetchFilmDataById(filmId)
       .then((filmsData) => callback(filmsData[0]))
       .catch((err) => alert(err));
+  }
+
+  getFilmTrailer(filmId, callback) {
+    this.#fetchFilmTrailer(filmId).then((trailerURL) => callback(trailerURL));
   }
 }
 

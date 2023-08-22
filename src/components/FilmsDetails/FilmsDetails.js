@@ -16,7 +16,9 @@ export default function FilmsDetails({ filmsList }) {
     const newCurrFilm = filmsList.find((film) => film.id === filmId);
 
     if (newCurrFilm) {
-      setCurrFilm(newCurrFilm);
+      apiManager.getFilmTrailer(newCurrFilm.id, (trailerURL) =>
+        setCurrFilm({ ...newCurrFilm, trailerURL })
+      );
     } else {
       apiManager.getFilmDataById(filmId, setCurrFilm);
     }
@@ -40,6 +42,10 @@ export default function FilmsDetails({ filmsList }) {
         <FontAwesomeIcon icon={faImdb} size="xl" />:
       </div>
       <p className="imdb">{currFilm?.vote_average}</p>
+      <p className="trailer-title">
+        <strong>Trailer:</strong>
+      </p>
+      <iframe src={currFilm?.trailerURL} className="trailer" title="trailer" />
     </div>
   );
 }
