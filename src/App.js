@@ -101,7 +101,11 @@ function App() {
         <Route
           path="user/:userId/films"
           element=<div>
-            <UsersBalance usersList={usersList} />
+            <UsersBalance
+              userBalance={
+                usersList.find((user) => user.id === currentUser)?.balance
+              }
+            />
             <SearchBar filmsListLoaded={filmsListLoaded} />
             <FilmsCardsContainer>
               <FilmsCardsList

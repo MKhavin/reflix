@@ -100,7 +100,7 @@ class TMDBAPIManager {
     const trailersVideos = unwrappedData.results.filter(
       (video) => video.type === "Trailer" && video.site === "YouTube"
     );
-    const trailerURL = `http://www.youtube.com/embed/${trailersVideos[0].key}`;
+    const trailerURL = `http://www.youtube.com/embed/${trailersVideos[0]?.key}`;
 
     return trailerURL;
   }
