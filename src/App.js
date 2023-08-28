@@ -9,11 +9,13 @@ import FilmsCardsContainer from "./components/FilmsCardsList/FilmsCardsContainer
 import RentedFilmsCardsList from "./components/FilmsCardsList/RentedFilmsCardsList";
 import SearchBar from "./components/SearchBar";
 import UsersBalance from "./components/Users/UsersBalance";
+import ModalMessage from "./components/ModalMessage";
 
 function App() {
   const [filmsList, setFilmsList] = useState([]);
   const [rentedFilmsList, setRentedFilms] = useState({});
   const [currentUser, setCurrentUser] = useState(0);
+  const [showModalMessage, setShowModalMessage] = useState(false);
   const [usersList, setUsersList] = useState([
     { name: "Milana", id: 4, balance: 20 },
     { name: "Nino", id: 3, balance: 20 },
@@ -44,23 +46,30 @@ function App() {
       newRentedFilms = newRentedFilms.filter((film) => film.id !== filmId);
 
       currUser.balance += 5;
+
+      setRentedFilms({ ...rentedFilmsList, [userId]: newRentedFilms });
+      setUsersList([
+        ...usersList.filter((user) => user.id !== Number(userId)),
+        currUser,
+      ]);
     } else {
       if (currUser.balance > 0) {
         newRentedFilms.push(currFilm);
 
         currUser.balance -= 5;
+
+        setRentedFilms({ ...rentedFilmsList, [userId]: newRentedFilms });
+        setUsersList([
+          ...usersList.filter((user) => user.id !== Number(userId)),
+          currUser,
+        ]);
+        setShowModalMessage(true);
       } else {
         alert(
           "Your balance is 0. Add money to your account for rent new film."
         );
       }
     }
-
-    setRentedFilms({ ...rentedFilmsList, [userId]: newRentedFilms });
-    setUsersList([
-      ...usersList.filter((user) => user.id !== Number(userId)),
-      currUser,
-    ]);
   }
 
   function userSelected(userId) {
@@ -69,6 +78,17 @@ function App() {
 
   return (
     <Router>
+      {showModalMessage && (
+        <ModalMessage closeModalMessage={setShowModalMessage}>
+          <p className="modal-message">
+            Rented{" "}
+            <strong>
+              "{rentedFilmsList[currentUser]?.slice(-1)[0]?.title}"
+            </strong>{" "}
+            Sucessfully!
+          </p>
+        </ModalMessage>
+      )}
       <NavBar userId={currentUser} />
       <Routes>
         <Route
