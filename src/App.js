@@ -10,6 +10,7 @@ import RentedFilmsCardsList from "./components/FilmsCardsList/RentedFilmsCardsLi
 import SearchBar from "./components/SearchBar";
 import UsersBalance from "./components/Users/UsersBalance";
 import ModalMessage from "./components/ModalMessage";
+import RentSuccessfulMessage from "./components/RentSuccessfulMessage";
 
 function App() {
   const [filmsList, setFilmsList] = useState([]);
@@ -80,13 +81,9 @@ function App() {
     <Router>
       {showModalMessage && (
         <ModalMessage closeModalMessage={setShowModalMessage}>
-          <p className="modal-message">
-            Rented{" "}
-            <strong>
-              "{rentedFilmsList[currentUser]?.slice(-1)[0]?.title}"
-            </strong>{" "}
-            Sucessfully!
-          </p>
+          <RentSuccessfulMessage
+            filmTitle={rentedFilmsList[currentUser]?.slice(-1)[0]?.title}
+          />
         </ModalMessage>
       )}
       <NavBar userId={currentUser} />
